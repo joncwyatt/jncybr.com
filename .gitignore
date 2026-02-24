@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Editor
+.claude/
+.vscode/
+
+# Backup / patch
+*.orig
+*.rej
