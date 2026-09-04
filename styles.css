@@ -406,6 +406,26 @@ img {
     margin: 32px 0;
 }
 
+.policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 18px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.policy-table th,
+.policy-table td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-card);
+}
+
+.policy-table th {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
 /* --- Footer --- */
 .site-footer {
     padding: 48px 0 32px;
