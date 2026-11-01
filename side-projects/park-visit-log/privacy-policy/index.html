@@ -25,7 +25,7 @@
         <!-- Policy Header -->
         <div class="policy-header">
             <h1>Privacy Policy</h1>
-            <p class="effective-date">Effective Date: October 4, 2026</p>
+            <p class="effective-date">Effective Date: November 1, 2026</p>
         </div>
 
         <!-- Intro -->
@@ -49,7 +49,10 @@
                 data. Your visit history never leaves your device unless you explicitly choose to export it
                 using the app&rsquo;s built-in backup feature, which saves a file to a location you control,
                 or to share something (for example a progress card or a Field Passport PDF) through the
-                system share sheet to a destination you pick.
+                system share sheet to a destination you pick. The export file is a copy you keep, and it
+                does not include photos. Separately, if you back up your iPhone to iCloud or to a computer,
+                that iOS device backup includes the app&rsquo;s data, photos too, as it does for your other
+                apps; it is made by iOS and kept by Apple or on your computer, never by us.
             </p>
         </div>
 
@@ -79,8 +82,10 @@
                 (https://developer.nps.gov/api/v1) to retrieve publicly available park information
                 such as alerts, operating hours, entrance fees, and gallery photos. These requests
                 include only a park code (e.g., &ldquo;yose&rdquo; for Yosemite) and an API key &mdash;
-                no personal data, device identifiers, or location information is sent. No other
-                third-party services, analytics platforms, or advertising networks are used.
+                no personal data, device identifiers, or location information is sent. Park information
+                the App receives this way may be kept in a cache on your device, so it can still be
+                shown when you are offline. No other third-party services, analytics platforms, or
+                advertising networks are used.
             </p>
         </div>
 
@@ -100,7 +105,14 @@
                 never transmitted to our servers or to any third party. The in-app map is drawn by
                 Apple Maps, so Apple receives requests for the map area you are viewing, as it does in
                 any app that uses Apple Maps; those requests are covered by Apple&rsquo;s privacy
-                policy, not ours.
+                policy, not ours. When the App finds the park closest to you (on the Closest Park card,
+                in Parks Near Me, or on the compass), it keeps a note of that park in its on-device
+                settings: which park it is, its country, its distance from you, the compass direction
+                from you to it, and when it was found. Each new result replaces the previous one. The
+                note is used only by the App&rsquo;s Log a Visit widget and by Siri, so they can offer
+                that park without asking for your location, and it stays on your device. Your
+                coordinates are never stored, though the distance and direction together show roughly
+                where you were when the park was found.
             </p>
         </div>
 
@@ -112,8 +124,9 @@
             <h2 class="policy-section__title">Notifications</h2>
             <p class="policy-section__body">
                 With your permission, Park Visit Log may send two kinds of local notifications. Park
-                alerts tell you about danger warnings or park closures at parks you have visited; they
-                are generated on your device from publicly available alert data retrieved from the
+                alerts tell you about danger warnings or park closures at parks you have visited and,
+                if you turn it on, parks on your wishlist; they are generated on your device from
+                publicly available alert data retrieved from the
                 National Park Service API. Visit anniversary reminders tell you when it has been a year
                 or more since a visit, for example &ldquo;2 years ago today you were at Zion&rdquo;; they
                 are scheduled on your device from the visit dates you have logged and can be turned off
