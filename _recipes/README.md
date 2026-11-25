@@ -95,3 +95,16 @@ Keep photos in `/assets/recipes/`. The build clears the category folders under
   `rel="sponsored"` and open in a new tab.
 - **Printing** gives the recipe card: title, times, ingredients, steps with
   their tables, and Notes. Reference sections and photos stay on the web page.
+
+## Security
+
+Every page carries a Content Security Policy (a `<meta>` tag in `<head>`). It
+only allows scripts, styles, and images from jncybr.com itself. So:
+
+- Don't add `style="…"` attributes, inline `<script>` tags, or `onclick`
+  handlers. They won't run. Put styles in `/styles.css` or
+  `recipes/recipes.css`.
+- Photos must live on this site, in `/assets/recipes/`. Images hotlinked from
+  other sites won't load.
+- If you add a new hand-written page, copy the two `<meta>` lines after
+  `viewport` from `/index.html`.

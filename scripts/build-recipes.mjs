@@ -528,6 +528,7 @@ function loadRecipe(file, errors, warnings) {
 
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) errors.push(`${where}: file name must be lowercase-words-with-dashes.md`);
     if (!data.title) errors.push(`${where}: missing "title"`);
+    if (data['image-position'] && !/^[a-z0-9.%\s-]+$/i.test(data['image-position'])) errors.push(`${where}: "image-position" should look like 50% 40% or center top`);
     const category = (data.category || '').toLowerCase();
     if (!CATEGORY[category]) errors.push(`${where}: "category" must be one of ${CATEGORIES.map(c => c.slug).join(', ')} (got "${data.category || ''}")`);
     if (!data.description) warnings.push(`${where}: no "description" — cards and search results look better with one`);
@@ -628,13 +629,37 @@ const JS_VERSION = assetVersion('recipes.js');
 const formatDate = iso => new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const absUrl = path => (/^https?:\/\//.test(path) ? path : SITE_URL + path);
-const imgPos = r => (r.imagePosition ? ` style="object-position: ${esc(r.imagePosition)}"` : '');
+// Inline style attributes are blocked by the Content Security Policy, so each
+// photo's crop position becomes a rule in a <style> block allowed by its hash.
+const pageStyles = new Map();
+const imgPos = r => {
+    if (!r.imagePosition) return '';
+    const cls = `pos-${r.slug}`;
+    pageStyles.set(cls, `.${cls}{object-position:${r.imagePosition}}`);
+    return ` class="${cls}"`;
+};
+
+const CSP = styleHash => [
+    "default-src 'self'",
+    "script-src 'self'",
+    `style-src 'self'${styleHash ? ` '${styleHash}'` : ''}`,
+    "img-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    'upgrade-insecure-requests',
+].join('; ');
 
 function layout({ title, description, path, bodyClass = '', ogType = 'website', image = '', jsonLd = null, content }) {
     const metaImage = image ? `
     <meta property="og:image" content="${esc(absUrl(image))}">
     <meta name="twitter:card" content="summary_large_image">` : `
     <meta name="twitter:card" content="summary">`;
+    const css = [...pageStyles.values()].join('');
+    pageStyles.clear();
+    const styleHash = css ? `sha256-${createHash('sha256').update(css).digest('base64')}` : '';
+    const style = css ? `
+    <style>${css}</style>` : '';
     const ld = jsonLd ? `
     <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>` : '';
     return `<!DOCTYPE html>
@@ -643,6 +668,8 @@ function layout({ title, description, path, bodyClass = '', ogType = 'website', 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="${CSP(styleHash)}">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>${esc(title)}</title>
     <meta name="description" content="${esc(description)}">
     <link rel="canonical" href="${SITE_URL}${path}">
@@ -653,7 +680,7 @@ function layout({ title, description, path, bodyClass = '', ogType = 'website', 
     <meta property="og:site_name" content="jncybr">${metaImage}
     <meta name="theme-color" content="#0a0a12">
     <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="/recipes/recipes.css?v=${CSS_VERSION}">
+    <link rel="stylesheet" href="/recipes/recipes.css?v=${CSS_VERSION}">${style}
     <script src="/recipes/recipes.js?v=${JS_VERSION}" defer></script>${ld}
 </head>
 <body class="recipes${bodyClass ? ' ' + bodyClass : ''}">

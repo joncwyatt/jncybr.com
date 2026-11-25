@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Side Projects — Jon Wyatt</title>
     <meta name="description" content="iOS apps and side projects by Jon Wyatt.">
     <link rel="stylesheet" href="/styles.css">
@@ -19,7 +21,7 @@
         </nav>
 
         <!-- Header -->
-        <section style="padding: 32px 0 40px;">
+        <section class="section--intro">
             <div class="section-header">
                 <p class="section-header__label">iOS Apps & Experiments</p>
                 <h1 class="section-header__title">Side Projects</h1>
@@ -27,7 +29,7 @@
         </section>
 
         <!-- Projects Grid -->
-        <section style="padding-bottom: 64px;">
+        <section class="section--spaced">
             <div class="projects-grid">
                 <a href="/side-projects/park-visit-log/" class="card card--link">
                     <div class="card__icon"><img src="/assets/park-visit-log-icon.png" alt="Park Visit Log" width="48" height="48"></div>

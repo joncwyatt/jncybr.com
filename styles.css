@@ -228,6 +228,28 @@ img {
     gap: 6px;
 }
 
+/* --- Section spacing and accents (instead of inline styles, which the CSP blocks) --- */
+.section--spaced {
+    padding-bottom: 64px;
+}
+
+.section--intro {
+    padding: 32px 0 40px;
+}
+
+.card__icon--recipes {
+    background: rgba(212, 163, 115, 0.12);
+    color: #e8c095;
+}
+
+.card__arrow--recipes {
+    color: #e8c095;
+}
+
+.text-block--spaced {
+    padding-bottom: 32px;
+}
+
 /* --- Project Cards Grid --- */
 .projects-grid {
     display: grid;
