@@ -263,6 +263,47 @@ img {
     }
 }
 
+/* --- Homepage: sections side by side --- */
+.home-sections {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 20px;
+}
+
+.home-sections > section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* One column of cards per section; the grid fills the section so cards in
+   neighbouring columns line up at the same height. */
+.home-sections .projects-grid {
+    flex: 1;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 600px) {
+    .home-sections {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* --- 404 --- */
+.hero--404 {
+    padding-top: 120px;
+}
+
+.app-links--center {
+    justify-content: center;
+    margin: 32px 0 0;
+}
+
+@media (max-width: 480px) {
+    .app-links--center .btn {
+        padding: 12px 18px;
+    }
+}
+
 /* --- App Detail --- */
 .app-header {
     display: flex;
