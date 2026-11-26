@@ -652,9 +652,12 @@ const CSP = styleHash => [
 
 function layout({ title, description, path, bodyClass = '', ogType = 'website', image = '', jsonLd = null, content }) {
     const metaImage = image ? `
-    <meta property="og:image" content="${esc(absUrl(image))}">
-    <meta name="twitter:card" content="summary_large_image">` : `
-    <meta name="twitter:card" content="summary">`;
+    <meta property="og:image" content="${esc(absUrl(image))}">` : `
+    <meta property="og:image" content="${SITE_URL}/assets/og-default.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">`;
+    const twitterCard = `
+    <meta name="twitter:card" content="summary_large_image">`;
     const css = [...pageStyles.values()].join('');
     pageStyles.clear();
     const styleHash = css ? `sha256-${createHash('sha256').update(css).digest('base64')}` : '';
@@ -677,14 +680,19 @@ function layout({ title, description, path, bodyClass = '', ogType = 'website', 
     <meta property="og:title" content="${esc(title)}">
     <meta property="og:description" content="${esc(description)}">
     <meta property="og:url" content="${SITE_URL}${path}">
-    <meta property="og:site_name" content="jncybr">${metaImage}
+    <meta property="og:site_name" content="jncybr">${metaImage}${twitterCard}
     <meta name="theme-color" content="#0a0a12">
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="/recipes/recipes.css?v=${CSS_VERSION}">${style}
     <script src="/recipes/recipes.js?v=${JS_VERSION}" defer></script>${ld}
 </head>
 <body class="recipes${bodyClass ? ' ' + bodyClass : ''}">
     <div class="ambient-glow"></div>
+
+${SITE_NAV.replace('CURRENT', path === '/recipes/' ? ' aria-current="page"' : '')}
 
     <div class="page-container">
 ${content}
@@ -698,7 +706,20 @@ ${content}
 `;
 }
 
+// Site-wide header. Keep in sync with the hand-written pages (index.html,
+// side-projects/, 404.html).
+const SITE_NAV = `    <header class="site-nav">
+        <a href="/" class="site-nav__brand"><svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#12121e"/><rect x="0.75" y="0.75" width="62.5" height="62.5" rx="13.25" fill="none" stroke="#3a9d6e" stroke-opacity="0.45" stroke-width="1.5"/>MARK</svg>jncybr</a>
+        <nav class="site-nav__links" aria-label="Site">
+            <a href="/side-projects/">Projects</a>
+            <a href="/recipes/" class="is-active"CURRENT>Recipes</a>
+        </nav>
+    </header>`.replace('MARK', '<circle cx="36" cy="16" r="4.6" fill="#4ec48a"/><path d="M36 27v15.5a10 10 0 0 1-10 10h-4" fill="none" stroke="#4ec48a" stroke-width="7.5" stroke-linecap="round"/>');
+
+// The header's brand links home, so breadcrumbs start one level down and are
+// left out when only the current page would remain.
 function breadcrumb(items) {
+    if (items.length < 2) return '';
     const parts = items.map(([label, href]) => href ? `<a href="${href}">${esc(label)}</a>` : `<span aria-current="page">${esc(label)}</span>`);
     return `        <nav class="breadcrumb" aria-label="Breadcrumb">
             ${parts.join('\n            <span class="sep">/</span>\n            ')}
@@ -771,7 +792,7 @@ function listingPage({ recipes, list, active, path, title, metaTitle, descriptio
             <p>Nothing here yet. Check back soon.</p>
         </div>`;
 
-    const content = `${breadcrumb(active ? [['jncybr', '/'], ['Recipes', '/recipes/'], [CATEGORY[active].name]] : [['jncybr', '/'], ['Recipes']])}
+    const content = `${breadcrumb(active ? [['Recipes', '/recipes/'], [CATEGORY[active].name]] : [['Recipes']])}
 
         <header class="recipes-hero">
             <p class="recipes-hero__label">${label}</p>
@@ -907,7 +928,7 @@ function recipePage(r, recipes) {
             </div>
         </section>` : '';
 
-    const content = `${breadcrumb([['jncybr', '/'], ['Recipes', '/recipes/'], [cat.name, `/recipes/${r.category}/`], [r.title]])}
+    const content = `${breadcrumb([['Recipes', '/recipes/'], [cat.name, `/recipes/${r.category}/`], [r.title]])}
 
         <article class="recipe" data-recipe="${r.slug}">${header}${intro}${toc}${before}
 

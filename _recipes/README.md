@@ -106,5 +106,8 @@ only allows scripts, styles, and images from jncybr.com itself. So:
   `recipes/recipes.css`.
 - Photos must live on this site, in `/assets/recipes/`. Images hotlinked from
   other sites won't load.
-- If you add a new hand-written page, copy the two `<meta>` lines after
-  `viewport` from `/index.html`.
+- If you add a new hand-written page, copy the `<head>` tags (security
+  policy, icons, link previews) and the `<header class="site-nav">` block from
+  `/side-projects/index.html`. The recipe builder has its own copy of the
+  header in `scripts/build-recipes.mjs` (`SITE_NAV`), so add new sections to
+  both.

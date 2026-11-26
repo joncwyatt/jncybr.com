@@ -1260,6 +1260,7 @@
     /* Print the recipe card: header, ingredients, method and short notes.
        Reference sections, photos and long extras stay on the web page. */
     .ambient-glow,
+    .site-nav,
     .breadcrumb,
     .recipe-actions,
     .recipe-disclosure,
