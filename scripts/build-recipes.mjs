@@ -1013,9 +1013,9 @@ function main() {
         path: '/recipes/',
         title: 'Recipes',
         metaTitle: `Recipes — ${AUTHOR}`,
-        description: `Breakfast, lunch, dinner, snacks, and desserts: recipes ${AUTHOR} cooks at home.`,
+        description: `Recipes by ${AUTHOR}: breakfast, lunch, dinner, snacks, and desserts.`,
         label: 'From the kitchen',
-        tagline: 'The things I actually cook at home, written down so you can make them too. Breakfast through dessert.',
+        tagline: 'Breakfast, lunch, dinner, snacks, and desserts.',
     }));
 
     for (const c of CATEGORIES) {
